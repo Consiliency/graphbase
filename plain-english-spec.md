@@ -1,4 +1,4 @@
-# Core-Graph: Graph Database Abstraction Layer
+# GraphBase: Graph Database Abstraction Layer
 
 ## Executive Summary
 
@@ -183,7 +183,7 @@
 ## Example Usage
 
 ```typescript
-import { Graph } from 'core-graph';
+import { Graph } from 'graphbase';
 
 // Create graph with in-memory storage
 const graph = new Graph({ storage: 'memory' });

@@ -1,4 +1,4 @@
-# ROADMAP: Core-Graph - Graph Database Abstraction Layer
+# ROADMAP: GraphBase - Graph Database Abstraction Layer
 
 > **Generated**: 2025-12-30
 > **Based on**: CODEBASE.md analysis + plain-english-spec.md
@@ -6,7 +6,7 @@
 
 ## Executive Summary
 
-This roadmap outlines the development of **Core-Graph**, a TypeScript library that provides a clean, type-safe API for working with graph data structures. The library will support schema validation via JSON Schema, pluggable storage backends (in-memory and file-based), and a comprehensive set of graph operations including querying, traversal, and path finding.
+This roadmap outlines the development of **GraphBase**, a TypeScript library that provides a clean, type-safe API for working with graph data structures. The library will support schema validation via JSON Schema, pluggable storage backends (in-memory and file-based), and a comprehensive set of graph operations including querying, traversal, and path finding.
 
 The implementation follows a **layered architecture** approach, starting with foundational type definitions and building upward through validation, storage, operations, and finally the high-level Graph API class.
 

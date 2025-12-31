@@ -1,7 +1,7 @@
 {
-  "name": "core-graph",
+  "name": "graphbase",
   "version": "0.1.0",
-  "description": "Graph database abstraction layer for TypeScript",
+  "description": "TypeScript graph database abstraction layer with type-safe node/edge management and schema validation",
   "type": "module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

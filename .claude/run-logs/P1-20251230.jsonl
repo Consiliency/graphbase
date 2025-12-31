@@ -1,0 +1,627 @@
+2025-12-31T07:57:38Z|P1|phase|-|-|phase_start|running|Starting Phase 1 execution
+{
+  "ts": "2025-12-31T07:58:35Z",
+  "run_id": "P1-20251230",
+  "phase": "P1",
+  "lane": "SL-TYPES",
+  "task": "-",
+  "event": "lane_start",
+  "status": "success",
+  "notes": "Lane worktree created at .worktrees/P1/SL-TYPES"
+}
+{
+  "ts": "2025-12-31T07:58:43Z",
+  "run_id": "P1-20251230",
+  "phase": "P1",
+  "lane": "SL-TYPES",
+  "task": "P1-SL-TYPES-01",
+  "event": "task_start",
+  "status": "success",
+  "notes": "Writing type validation tests"
+}
+{
+  "ts": "2025-12-31T07:59:22Z",
+  "run_id": "P1-20251230",
+  "phase": "P1",
+  "lane": "SL-TYPES",
+  "task": "P1-SL-TYPES-01",
+  "event": "task_done",
+  "status": "success",
+  "notes": "Type validation tests written"
+}
+{
+  "ts": "2025-12-31T07:59:28Z",
+  "run_id": "P1-20251230",
+  "phase": "P1",
+  "lane": "SL-TYPES",
+  "task": "P1-SL-TYPES-02",
+  "event": "task_start",
+  "status": "success",
+  "notes": "Implementing type interfaces"
+}
+{
+  "ts": "2025-12-31T08:00:15Z",
+  "run_id": "P1-20251230",
+  "phase": "P1",
+  "lane": "SL-TYPES",
+  "task": "P1-SL-TYPES-02",
+  "event": "task_done",
+  "status": "success",
+  "notes": "Type interfaces implemented"
+}
+{
+  "ts": "2025-12-31T08:00:23Z",
+  "run_id": "P1-20251230",
+  "phase": "P1",
+  "lane": "SL-TYPES",
+  "task": "P1-SL-TYPES-03",
+  "event": "task_start",
+  "status": "success",
+  "notes": "Verifying tests pass"
+}
+{
+  "ts": "2025-12-31T08:01:13Z",
+  "run_id": "P1-20251230",
+  "phase": "P1",
+  "lane": "SL-TYPES",
+  "task": "P1-SL-TYPES-03",
+  "event": "task_done",
+  "status": "success",
+  "cmd": "npm test tests/unit/types.test.ts",
+  "exit_code": 0,
+  "notes": "All 25 tests passed, TypeScript compiles with strict mode"
+}
+{
+  "ts": "2025-12-31T08:01:15Z",
+  "run_id": "P1-20251230",
+  "phase": "P1",
+  "lane": "SL-TYPES",
+  "task": "-",
+  "event": "test_start",
+  "status": "success",
+  "cmd": "npm test tests/unit/types.test.ts",
+  "notes": "Running lane-level tests"
+}
+{
+  "ts": "2025-12-31T08:01:27Z",
+  "run_id": "P1-20251230",
+  "phase": "P1",
+  "lane": "SL-TYPES",
+  "task": "-",
+  "event": "test_done",
+  "status": "success",
+  "cmd": "npm test tests/unit/types.test.ts",
+  "exit_code": 0,
+  "notes": "All lane tests passed (25/25)"
+}
+{
+  "ts": "2025-12-31T08:01:48Z",
+  "run_id": "P1-20251230",
+  "phase": "P1",
+  "lane": "SL-TYPES",
+  "task": "-",
+  "event": "lane_ready_to_merge",
+  "status": "success",
+  "notes": "Lane complete: branch=lane/P1/SL-TYPES worktree=.worktrees/P1/SL-TYPES commit=b973cc2"
+}
+{
+  "ts": "2025-12-31T08:06:21Z",
+  "run_id": "P1-20251230",
+  "phase": "P1",
+  "lane": "SL-STORAGE",
+  "task": "-",
+  "event": "lane_start",
+  "status": "running",
+  "notes": "Starting SL-STORAGE lane with 3 tasks"
+}
+{"ts":"2025-12-31T08:06:23Z","run_id":"P1-20251230","phase":"P1","lane":"SL-SCHEMA","task":"-","event":"lane_start","status":"ok","notes":"Lane worktree created at .worktrees/P1/SL-SCHEMA"}
+{"ts":"2025-12-31T08:06:34Z","run_id":"P1-20251230","phase":"P1","lane":"SL-SCHEMA","task":"P1-SL-SCHEMA-01","event":"task_start","status":"ok","notes":"Writing validation tests"}
+{
+  "ts": "2025-12-31T08:06:39Z",
+  "run_id": "P1-20251230",
+  "phase": "P1",
+  "lane": "SL-STORAGE",
+  "task": "P1-SL-STORAGE-01",
+  "event": "task_start",
+  "status": "running",
+  "notes": "Writing storage tests (TDD first)"
+}
+{"ts":"2025-12-31T08:08:21Z","run_id":"P1-20251230","phase":"P1","lane":"SL-SCHEMA","task":"P1-SL-SCHEMA-01","event":"task_done","status":"ok","notes":"Test file written: tests/unit/schema.test.ts"}
+{"ts":"2025-12-31T08:08:23Z","run_id":"P1-20251230","phase":"P1","lane":"SL-SCHEMA","task":"P1-SL-SCHEMA-02","event":"task_start","status":"ok","notes":"Implementing schema validation"}
+{
+  "ts": "2025-12-31T08:09:04Z",
+  "run_id": "P1-20251230",
+  "phase": "P1",
+  "lane": "SL-STORAGE",
+  "task": "P1-SL-STORAGE-01",
+  "event": "task_done",
+  "status": "complete",
+  "notes": "Storage tests written with 60+ test cases"
+}
+{
+  "ts": "2025-12-31T08:09:05Z",
+  "run_id": "P1-20251230",
+  "phase": "P1",
+  "lane": "SL-STORAGE",
+  "task": "P1-SL-STORAGE-02",
+  "event": "task_start",
+  "status": "running",
+  "notes": "Implementing storage layer"
+}
+{
+  "ts": "2025-12-31T08:11:29Z",
+  "run_id": "P1-20251230",
+  "phase": "P1",
+  "lane": "SL-STORAGE",
+  "task": "P1-SL-STORAGE-02",
+  "event": "task_done",
+  "status": "complete",
+  "notes": "Storage layer implemented: interface.ts memory.ts factory.ts index.ts"
+}
+{
+  "ts": "2025-12-31T08:11:30Z",
+  "run_id": "P1-20251230",
+  "phase": "P1",
+  "lane": "SL-STORAGE",
+  "task": "P1-SL-STORAGE-03",
+  "event": "task_start",
+  "status": "running",
+  "notes": "Verifying storage layer tests and coverage"
+}
+{"ts":"2025-12-31T08:11:33Z","run_id":"P1-20251230","phase":"P1","lane":"SL-SCHEMA","task":"P1-SL-SCHEMA-02","event":"task_done","status":"ok","notes":"Implemented schema validation: types.ts registry.ts validator.ts errors.ts index.ts"}
+{"ts":"2025-12-31T08:11:34Z","run_id":"P1-20251230","phase":"P1","lane":"SL-SCHEMA","task":"P1-SL-SCHEMA-03","event":"task_start","status":"ok","notes":"Verifying all tests pass"}
+{"ts":"2025-12-31T08:11:44Z","run_id":"P1-20251230","phase":"P1","lane":"SL-SCHEMA","task":"-","event":"test_start","status":"ok","cmd":"npm test -- --coverage","notes":"Running lane tests with coverage"}
+{
+  "ts": "2025-12-31T08:11:51Z",
+  "run_id": "P1-20251230",
+  "phase": "P1",
+  "lane": "SL-STORAGE",
+  "task": "-",
+  "event": "test_start",
+  "status": "running",
+  "cmd": "npm test tests/unit/storage.test.ts",
+  "notes": "Running lane tests"
+}
+{
+  "ts": "2025-12-31T08:11:55Z",
+  "run_id": "P1-20251230",
+  "phase": "P1",
+  "lane": "SL-STORAGE",
+  "task": "-",
+  "event": "test_done",
+  "status": "pass",
+  "cmd": "npm test tests/unit/storage.test.ts",
+  "exit_code": 0,
+  "notes": "77 tests passed - coverage 99.59%"
+}
+{
+  "ts": "2025-12-31T08:12:04Z",
+  "run_id": "P1-20251230",
+  "phase": "P1",
+  "lane": "SL-STORAGE",
+  "task": "P1-SL-STORAGE-03",
+  "event": "task_done",
+  "status": "complete",
+  "notes": "All tests pass - TypeScript strict mode verified - coverage 99.59%"
+}
+{
+  "ts": "2025-12-31T08:12:47Z",
+  "run_id": "P1-20251230",
+  "phase": "P1",
+  "lane": "SL-STORAGE",
+  "task": "-",
+  "event": "lane_ready_to_merge",
+  "status": "complete",
+  "notes": "Lane complete: 5 files 1581 insertions - 77 tests - 99.59% coverage"
+}
+{"ts":"2025-12-31T08:13:44Z","run_id":"P1-20251230","phase":"P1","lane":"SL-SCHEMA","task":"-","event":"test_done","status":"ok","cmd":"npm run test:coverage","exit_code":0,"notes":"All 62 tests pass. Coverage: statements 98.82% branches 94.23% functions 100% lines 98.82%"}
+{"ts":"2025-12-31T08:13:46Z","run_id":"P1-20251230","phase":"P1","lane":"SL-SCHEMA","task":"P1-SL-SCHEMA-03","event":"task_done","status":"ok","notes":"Verify task complete - all tests pass with coverage >= 80%"}
+{"ts":"2025-12-31T08:14:23Z","run_id":"P1-20251230","phase":"P1","lane":"SL-SCHEMA","task":"-","event":"lane_ready_to_merge","status":"ok","notes":"Lane branch lane/P1/SL-SCHEMA ready with commit 8c2d453"}
+{
+  "ts": "2025-12-31T08:16:25Z",
+  "run_id": "P1-20251230",
+  "phase": "P1",
+  "lane": "SL-OPS",
+  "task": "-",
+  "event": "lane_start",
+  "status": "started",
+  "notes": "Lane worktree created at .worktrees/P1/SL-OPS"
+}
+{
+  "ts": "2025-12-31T08:16:42Z",
+  "run_id": "P1-20251230",
+  "phase": "P1",
+  "lane": "SL-OPS",
+  "task": "P1-SL-OPS-01",
+  "event": "task_start",
+  "status": "started",
+  "notes": "Writing operation tests (TDD)"
+}
+{
+  "ts": "2025-12-31T08:17:03Z",
+  "run_id": "P1-20251230",
+  "phase": "P1",
+  "lane": "SL-BUNDLE",
+  "task": "-",
+  "event": "lane_start",
+  "status": "started",
+  "notes": "Lane worktree created at .worktrees/P1/SL-BUNDLE"
+}
+{
+  "ts": "2025-12-31T08:17:14Z",
+  "run_id": "P1-20251230",
+  "phase": "P1",
+  "lane": "SL-BUNDLE",
+  "task": "P1-SL-BUNDLE-01",
+  "event": "task_start",
+  "status": "started",
+  "notes": "Write bundle tests (TDD)"
+}
+{
+  "ts": "2025-12-31T08:17:50Z",
+  "run_id": "P1-20251230",
+  "phase": "P1",
+  "lane": "SL-OPS",
+  "task": "P1-SL-OPS-01",
+  "event": "task_done",
+  "status": "completed",
+  "notes": "Test file written: tests/unit/operations.test.ts"
+}
+{
+  "ts": "2025-12-31T08:17:52Z",
+  "run_id": "P1-20251230",
+  "phase": "P1",
+  "lane": "SL-OPS",
+  "task": "P1-SL-OPS-02",
+  "event": "task_start",
+  "status": "started",
+  "notes": "Implementing graph operations"
+}
+{
+  "ts": "2025-12-31T08:18:41Z",
+  "run_id": "P1-20251230",
+  "phase": "P1",
+  "lane": "SL-BUNDLE",
+  "task": "P1-SL-BUNDLE-01",
+  "event": "task_done",
+  "status": "completed",
+  "notes": "Test file written: tests/unit/bundle.test.ts"
+}
+{
+  "ts": "2025-12-31T08:18:43Z",
+  "run_id": "P1-20251230",
+  "phase": "P1",
+  "lane": "SL-BUNDLE",
+  "task": "P1-SL-BUNDLE-02",
+  "event": "task_start",
+  "status": "started",
+  "notes": "Implement bundle module (impl)"
+}
+{
+  "ts": "2025-12-31T08:20:22Z",
+  "run_id": "P1-20251230",
+  "phase": "P1",
+  "lane": "SL-OPS",
+  "task": "P1-SL-OPS-02",
+  "event": "task_done",
+  "status": "completed",
+  "notes": "Implementation complete: query.ts, traverse.ts, paths.ts, subgraph.ts, index.ts"
+}
+{
+  "ts": "2025-12-31T08:20:24Z",
+  "run_id": "P1-20251230",
+  "phase": "P1",
+  "lane": "SL-OPS",
+  "task": "P1-SL-OPS-03",
+  "event": "task_start",
+  "status": "started",
+  "notes": "Verifying tests and coverage"
+}
+{
+  "ts": "2025-12-31T08:21:24Z",
+  "run_id": "P1-20251230",
+  "phase": "P1",
+  "lane": "SL-BUNDLE",
+  "task": "P1-SL-BUNDLE-02",
+  "event": "task_done",
+  "status": "completed",
+  "notes": "Bundle module implemented: format.ts, exporter.ts, importer.ts, validator.ts, index.ts"
+}
+{
+  "ts": "2025-12-31T08:21:26Z",
+  "run_id": "P1-20251230",
+  "phase": "P1",
+  "lane": "SL-BUNDLE",
+  "task": "P1-SL-BUNDLE-03",
+  "event": "task_start",
+  "status": "started",
+  "notes": "Verify all tests pass"
+}
+{
+  "ts": "2025-12-31T08:21:35Z",
+  "run_id": "P1-20251230",
+  "phase": "P1",
+  "lane": "SL-BUNDLE",
+  "task": "-",
+  "event": "test_start",
+  "status": "started",
+  "cmd": "npm test tests/unit/bundle.test.ts",
+  "notes": "Running bundle unit tests"
+}
+{
+  "ts": "2025-12-31T08:22:02Z",
+  "run_id": "P1-20251230",
+  "phase": "P1",
+  "lane": "SL-OPS",
+  "task": "P1-SL-OPS-03",
+  "event": "task_done",
+  "status": "completed",
+  "notes": "TypeScript compiles, all tests pass, coverage 99.72%"
+}
+{
+  "ts": "2025-12-31T08:22:04Z",
+  "run_id": "P1-20251230",
+  "phase": "P1",
+  "lane": "SL-OPS",
+  "task": "-",
+  "event": "test_start",
+  "status": "started",
+  "cmd": "npm test tests/unit/operations.test.ts",
+  "notes": "Lane-level test verification"
+}
+{
+  "ts": "2025-12-31T08:22:21Z",
+  "run_id": "P1-20251230",
+  "phase": "P1",
+  "lane": "SL-OPS",
+  "task": "-",
+  "event": "test_done",
+  "status": "passed",
+  "cmd": "npm test tests/unit/operations.test.ts",
+  "exit_code": 0,
+  "notes": "58 tests passed"
+}
+{
+  "ts": "2025-12-31T08:22:22Z",
+  "run_id": "P1-20251230",
+  "phase": "P1",
+  "lane": "SL-OPS",
+  "task": "-",
+  "event": "lane_ready_to_merge",
+  "status": "completed",
+  "notes": "Branch lane/P1/SL-OPS ready at .worktrees/P1/SL-OPS"
+}
+{
+  "ts": "2025-12-31T08:24:34Z",
+  "run_id": "P1-20251230",
+  "phase": "P1",
+  "lane": "SL-BUNDLE",
+  "task": "-",
+  "event": "test_done",
+  "status": "passed",
+  "cmd": "npm test tests/unit/bundle.test.ts",
+  "exit_code": 0,
+  "notes": "68 tests passing, coverage >= 80%"
+}
+{
+  "ts": "2025-12-31T08:24:37Z",
+  "run_id": "P1-20251230",
+  "phase": "P1",
+  "lane": "SL-BUNDLE",
+  "task": "P1-SL-BUNDLE-03",
+  "event": "task_done",
+  "status": "completed",
+  "notes": "All tests pass, TypeScript strict mode, coverage >= 80%"
+}
+{
+  "ts": "2025-12-31T08:25:05Z",
+  "run_id": "P1-20251230",
+  "phase": "P1",
+  "lane": "SL-BUNDLE",
+  "task": "-",
+  "event": "lane_ready_to_merge",
+  "status": "completed",
+  "notes": "Branch lane/P1/SL-BUNDLE ready for merge to main"
+}
+{
+  "ts": "2025-12-31T08:28:27Z",
+  "run_id": "P1-20251230",
+  "phase": "P1",
+  "lane": "SL-OPS",
+  "task": "-",
+  "event": "merge_start",
+  "status": "in_progress",
+  "cmd": "git rebase main",
+  "notes": "Starting integration of lane/P1/SL-OPS into main"
+}
+{
+  "ts": "2025-12-31T08:29:09Z",
+  "run_id": "P1-20251230",
+  "phase": "P1",
+  "lane": "SL-OPS",
+  "task": "-",
+  "event": "merge_done",
+  "status": "success",
+  "cmd": "git merge --no-ff lane/P1/SL-OPS",
+  "exit_code": 0,
+  "notes": "Merged ad7a69a; all 222 tests pass"
+}
+{
+  "ts": "2025-12-31T08:30:44Z",
+  "run_id": "P1-20251230",
+  "phase": "P1",
+  "lane": "SL-BUNDLE",
+  "task": "-",
+  "event": "merge_start",
+  "status": "in_progress",
+  "cmd": "git rebase main",
+  "notes": "Starting integration: lane has 68 passing tests"
+}
+{
+  "ts": "2025-12-31T08:31:30Z",
+  "run_id": "P1-20251230",
+  "phase": "P1",
+  "lane": "SL-BUNDLE",
+  "task": "-",
+  "event": "merge_done",
+  "status": "success",
+  "cmd": "git merge --no-ff",
+  "exit_code": 0,
+  "notes": "Merged at 1bf5b4b; 68 tests passing"
+}
+{
+  "ts": "2025-12-31T08:31:53Z",
+  "run_id": "P1-20251230",
+  "phase": "P1",
+  "lane": "SL-BUNDLE",
+  "task": "-",
+  "event": "worktree_cleanup",
+  "status": "success",
+  "cmd": "git worktree remove && git branch -d",
+  "exit_code": 0,
+  "notes": "Worktree removed and branch deleted"
+}
+{
+  "ts": "2025-12-31T08:33:57Z",
+  "run_id": "P1-20251230",
+  "phase": "P1",
+  "lane": "SL-CORE",
+  "task": "-",
+  "event": "lane_start",
+  "status": "started",
+  "cmd": "-",
+  "exit_code": 0,
+  "notes": "Lane worktree created at /home/jenner/co/core-graph/.worktrees/P1/SL-CORE"
+}
+{
+  "ts": "2025-12-31T08:34:43Z",
+  "run_id": "P1-20251230",
+  "phase": "P1",
+  "lane": "SL-CORE",
+  "task": "P1-SL-CORE-01",
+  "event": "task_start",
+  "status": "started",
+  "cmd": "-",
+  "exit_code": 0,
+  "notes": "Writing integration tests for Graph class"
+}
+{
+  "ts": "2025-12-31T08:37:04Z",
+  "run_id": "P1-20251230",
+  "phase": "P1",
+  "lane": "SL-CORE",
+  "task": "P1-SL-CORE-01",
+  "event": "task_done",
+  "status": "success",
+  "cmd": "-",
+  "exit_code": 0,
+  "notes": "Integration tests written for Graph class"
+}
+{
+  "ts": "2025-12-31T08:37:06Z",
+  "run_id": "P1-20251230",
+  "phase": "P1",
+  "lane": "SL-CORE",
+  "task": "P1-SL-CORE-02",
+  "event": "task_start",
+  "status": "started",
+  "cmd": "-",
+  "exit_code": 0,
+  "notes": "Implementing Graph class facade"
+}
+{
+  "ts": "2025-12-31T08:39:15Z",
+  "run_id": "P1-20251230",
+  "phase": "P1",
+  "lane": "SL-CORE",
+  "task": "P1-SL-CORE-02",
+  "event": "task_done",
+  "status": "success",
+  "cmd": "-",
+  "exit_code": 0,
+  "notes": "Graph class implementation complete"
+}
+{
+  "ts": "2025-12-31T08:39:17Z",
+  "run_id": "P1-20251230",
+  "phase": "P1",
+  "lane": "SL-CORE",
+  "task": "P1-SL-CORE-03",
+  "event": "task_start",
+  "status": "started",
+  "cmd": "-",
+  "exit_code": 0,
+  "notes": "Verifying all tests pass"
+}
+{
+  "ts": "2025-12-31T08:39:25Z",
+  "run_id": "P1-20251230",
+  "phase": "P1",
+  "lane": "SL-CORE",
+  "task": "-",
+  "event": "test_start",
+  "status": "started",
+  "cmd": "npm test",
+  "exit_code": 0,
+  "notes": "Running integration tests"
+}
+{
+  "ts": "2025-12-31T08:40:10Z",
+  "run_id": "P1-20251230",
+  "phase": "P1",
+  "lane": "SL-CORE",
+  "task": "-",
+  "event": "test_done",
+  "status": "success",
+  "cmd": "npm test --coverage",
+  "exit_code": 0,
+  "notes": "348 tests passing; 96.21% coverage"
+}
+{
+  "ts": "2025-12-31T08:40:12Z",
+  "run_id": "P1-20251230",
+  "phase": "P1",
+  "lane": "SL-CORE",
+  "task": "P1-SL-CORE-03",
+  "event": "task_done",
+  "status": "success",
+  "cmd": "-",
+  "exit_code": 0,
+  "notes": "All tests verified passing"
+}
+{
+  "ts": "2025-12-31T08:40:45Z",
+  "run_id": "P1-20251230",
+  "phase": "P1",
+  "lane": "SL-CORE",
+  "task": "-",
+  "event": "lane_ready_to_merge",
+  "status": "success",
+  "cmd": "-",
+  "exit_code": 0,
+  "notes": "Lane branch lane/P1/SL-CORE ready at commit dd1d3e6; 348 tests passing; 96.21% coverage"
+}
+{
+  "ts": "2025-12-31T08:42:05Z",
+  "run_id": "P1-20251230",
+  "phase": "P1",
+  "lane": "SL-CORE",
+  "task": "-",
+  "event": "merge_start",
+  "status": "in_progress",
+  "cmd": "git rebase main",
+  "exit_code": 0,
+  "notes": "Starting integration of SL-CORE into main"
+}
+{
+  "ts": "2025-12-31T08:42:36Z",
+  "run_id": "P1-20251230",
+  "phase": "P1",
+  "lane": "SL-CORE",
+  "task": "-",
+  "event": "merge_done",
+  "status": "success",
+  "cmd": "git merge --no-ff",
+  "exit_code": 0,
+  "notes": "Merged into main (16b9cd0); 348 tests passing"
+}
