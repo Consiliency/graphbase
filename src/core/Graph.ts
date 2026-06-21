@@ -15,7 +15,6 @@ import {
   findEdges as opsFindEdges,
   traverse as opsTraverse,
   findPath as opsFindPath,
-  TraverseDirection,
 } from '../operations/index.js';
 import type { TraverseOptions, FindPathOptions } from '../operations/index.js';
 import type { Bundle, ExportOptions as BundleExportOptions, ImportOptions as BundleImportOptions, ImportResult } from '../bundle/index.js';

@@ -92,6 +92,11 @@ export {
 export type { TraverseOptions, FindPathOptions } from './operations/index.js';
 
 // Bundle
+// NOTE: canonicalize/canonicalStringify are intentionally NOT re-exported at the
+// package root. They remain available from './bundle' for internal use, but the
+// canonical-serialization surface is provisional pending the spine's `canon v1`
+// (and the narrow CanonicalGraphBundle envelope planned in P2), so we avoid
+// committing to them as a root-level public contract here.
 export {
   exportBundle,
   importBundle,

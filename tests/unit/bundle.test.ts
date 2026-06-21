@@ -174,11 +174,19 @@ describe('Bundle module', () => {
       expect(bundle.metadata?.description).toBe('A bundle for testing');
     });
 
-    it('should auto-generate createdAt in metadata if not provided', () => {
+    it('should NOT auto-generate createdAt (export must be deterministic)', () => {
+      // A wall-clock timestamp would make the hashed envelope non-deterministic,
+      // so createdAt is never injected — it is caller-supplied or absent.
       const bundle = exportBundle(storage, { metadata: { name: 'Test' } });
-      expect(bundle.metadata?.createdAt).toBeDefined();
-      // Should be a valid ISO date string
-      expect(() => new Date(bundle.metadata!.createdAt!)).not.toThrow();
+      expect(bundle.metadata?.name).toBe('Test');
+      expect(bundle.metadata?.createdAt).toBeUndefined();
+    });
+
+    it('should preserve caller-supplied createdAt verbatim', () => {
+      const bundle = exportBundle(storage, {
+        metadata: { name: 'Test', createdAt: '2025-12-30T00:00:00Z' },
+      });
+      expect(bundle.metadata?.createdAt).toBe('2025-12-30T00:00:00Z');
     });
 
     it('should preserve node properties types', () => {
@@ -646,6 +654,195 @@ describe('Bundle module', () => {
       const node = newStorage.getNode('n1');
       expect(node?.properties.nested).toEqual({ deep: { value: [1, 2, 3] } });
       expect(node?.properties.nullValue).toBeNull();
+    });
+  });
+
+  describe('Deterministic export (canonical, byte-stable)', () => {
+    /**
+     * Build the SAME logical graph two ways, differing in:
+     *   - the order nodes/edges are added to storage, AND
+     *   - the key-insertion order of nested property objects (and a schema).
+     * A correct canonical export must yield byte-identical JSON for both.
+     *
+     * NOTE: this test is designed to FAIL if recursive key canonicalization is
+     * removed — the nested property key orders differ between the two builds, so
+     * a shallow (array-only) sort would still leave the bytes divergent.
+     */
+
+    function buildOrderA(): { storage: MemoryStorage; registry: SchemaRegistry } {
+      const s = new MemoryStorage();
+      const r = new SchemaRegistry();
+
+      // Nodes added in one order, with one key order for nested objects.
+      s.addNode({
+        id: 'n1',
+        type: 'Person',
+        properties: {
+          name: 'Alice',
+          address: { city: 'Paris', zip: '75001', street: 'Rue A' },
+          tags: ['x', 'y', 'z'],
+          meta: { a: 1, b: 2 },
+        },
+      });
+      s.addNode({
+        id: 'n2',
+        type: 'Person',
+        properties: {
+          name: 'Bob',
+          scores: [{ k: 1, v: 2 }, { k: 3, v: 4 }],
+        },
+      });
+      s.addNode({ id: 'n3', type: 'Person', properties: { name: 'Carol' } });
+
+      // Edges added in one order, with nested edge property key order.
+      s.addEdge({
+        id: 'e2',
+        type: 'KNOWS',
+        source: 'n2',
+        target: 'n3',
+        properties: { since: '2021', weight: 0.5 },
+      });
+      s.addEdge({
+        id: 'e1',
+        type: 'KNOWS',
+        source: 'n1',
+        target: 'n2',
+        properties: { weight: 0.9, since: '2020' },
+      });
+
+      // Schemas registered in one order, with one key order.
+      r.registerNodeSchema('Person', {
+        type: 'object',
+        properties: { name: { type: 'string' }, age: { type: 'number' } },
+        required: ['name'],
+      });
+      r.registerEdgeSchema('KNOWS', {
+        type: 'object',
+        properties: { since: { type: 'string' } },
+      });
+
+      return { storage: s, registry: r };
+    }
+
+    function buildOrderB(): { storage: MemoryStorage; registry: SchemaRegistry } {
+      const s = new MemoryStorage();
+      const r = new SchemaRegistry();
+
+      // SAME logical graph, but everything inserted in a DIFFERENT order,
+      // including the key-insertion order of every nested object.
+      s.addNode({ id: 'n3', type: 'Person', properties: { name: 'Carol' } });
+      s.addNode({
+        id: 'n2',
+        type: 'Person',
+        properties: {
+          scores: [{ v: 2, k: 1 }, { v: 4, k: 3 }],
+          name: 'Bob',
+        },
+      });
+      s.addNode({
+        id: 'n1',
+        type: 'Person',
+        properties: {
+          meta: { b: 2, a: 1 },
+          tags: ['x', 'y', 'z'],
+          address: { zip: '75001', street: 'Rue A', city: 'Paris' },
+          name: 'Alice',
+        },
+      });
+
+      s.addEdge({
+        id: 'e1',
+        type: 'KNOWS',
+        source: 'n1',
+        target: 'n2',
+        properties: { since: '2020', weight: 0.9 },
+      });
+      s.addEdge({
+        id: 'e2',
+        type: 'KNOWS',
+        source: 'n2',
+        target: 'n3',
+        properties: { weight: 0.5, since: '2021' },
+      });
+
+      // Schemas registered in the OPPOSITE order, different key order.
+      r.registerEdgeSchema('KNOWS', {
+        type: 'object',
+        properties: { since: { type: 'string' } },
+      });
+      r.registerNodeSchema('Person', {
+        type: 'object',
+        required: ['name'],
+        properties: { age: { type: 'number' }, name: { type: 'string' } },
+      });
+
+      return { storage: s, registry: r };
+    }
+
+    it('produces byte-identical JSON across two different insertion orders', () => {
+      const a = buildOrderA();
+      const b = buildOrderB();
+
+      const bundleA = exportBundle(a.storage, { schemaRegistry: a.registry });
+      const bundleB = exportBundle(b.storage, { schemaRegistry: b.registry });
+
+      const jsonA = JSON.stringify(bundleA);
+      const jsonB = JSON.stringify(bundleB);
+
+      expect(jsonA).toBe(jsonB);
+    });
+
+    it('sorts nodes by id regardless of insertion order', () => {
+      const { storage: s } = buildOrderB();
+      const bundle = exportBundle(s);
+      expect(bundle.nodes.map((n) => n.id)).toEqual(['n1', 'n2', 'n3']);
+    });
+
+    it('sorts edges by (source, type, target, id) regardless of insertion order', () => {
+      const { storage: s } = buildOrderA();
+      const bundle = exportBundle(s);
+      expect(bundle.edges.map((e) => e.id)).toEqual(['e1', 'e2']);
+    });
+
+    it('canonicalizes nested property object key order', () => {
+      const { storage: a } = buildOrderA();
+      const { storage: b } = buildOrderB();
+      const nodeA = exportBundle(a).nodes.find((n) => n.id === 'n1')!;
+      const nodeB = exportBundle(b).nodes.find((n) => n.id === 'n1')!;
+      // Same nested object, keys emitted in sorted order for both.
+      expect(JSON.stringify(nodeA)).toBe(JSON.stringify(nodeB));
+      expect(Object.keys(nodeA.properties.address as object)).toEqual([
+        'city',
+        'street',
+        'zip',
+      ]);
+    });
+
+    it('is byte-stable through export -> import -> export', () => {
+      const { storage: s, registry: r } = buildOrderA();
+      const first = exportBundle(s, { schemaRegistry: r });
+
+      const s2 = new MemoryStorage();
+      const r2 = new SchemaRegistry();
+      importBundle(s2, first, { schemaRegistry: r2 });
+      const second = exportBundle(s2, { schemaRegistry: r2 });
+
+      expect(JSON.stringify(second)).toBe(JSON.stringify(first));
+    });
+
+    it('does not inject a wall-clock timestamp into the hashed envelope', () => {
+      const { storage: s } = buildOrderA();
+      const bundle = exportBundle(s, { metadata: { name: 'g' } });
+      expect(bundle.metadata?.createdAt).toBeUndefined();
+    });
+
+    it('does not mutate caller property objects (defensive clone)', () => {
+      const s = new MemoryStorage();
+      const props = { b: 2, a: 1 };
+      s.addNode({ id: 'n1', type: 'T', properties: props });
+      exportBundle(s);
+      // Original object key order is untouched.
+      expect(Object.keys(props)).toEqual(['b', 'a']);
     });
   });
 

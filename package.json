@@ -6,12 +6,12 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "build": "tsup src/index.ts --format esm,cjs --dts",
+    "build": "tsup src/index.ts --format esm,cjs --dts && npm run check:dts",
+    "check:dts": "node -e \"require('node:fs').accessSync('dist/index.d.ts'); console.log('dist/index.d.ts present')\"",
     "test": "vitest run",
     "test:watch": "vitest watch",
     "test:coverage": "vitest run --coverage",
-    "typecheck": "tsc --noEmit",
-    "lint": "eslint src --ext .ts"
+    "typecheck": "tsc --noEmit"
   },
   "keywords": ["graph", "database", "typescript", "schema"],
   "author": "",

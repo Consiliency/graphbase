@@ -68,6 +68,9 @@ export { BUNDLE_VERSION } from './format.js';
 export { exportBundle } from './exporter.js';
 export type { ExportOptions } from './exporter.js';
 
+// Export canonical-serialization helpers (deterministic, hashable bytes)
+export { canonicalize, canonicalStringify } from './canonicalize.js';
+
 // Export importer
 export { importBundle, BundleImportError } from './importer.js';
 export type { ImportOptions, ImportResult } from './importer.js';
