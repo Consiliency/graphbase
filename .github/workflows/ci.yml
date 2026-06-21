@@ -1,0 +1,28 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+      - run: npm ci
+      - name: Typecheck
+        run: npm run typecheck
+      - name: Test
+        run: npm test
+      - name: Build (emits dist/index.d.ts)
+        run: npm run build
+      # `npm run build` runs `check:dts`, which fails the job if the declaration
+      # file was not produced (tsup exits 0 even when the DTS phase fails, so
+      # this explicit assertion is what actually gates the type contract).
+      - name: Assert declaration file shipped
+        run: test -f dist/index.d.ts
