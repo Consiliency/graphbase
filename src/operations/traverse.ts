@@ -61,6 +61,18 @@ export interface TraverseOptions {
   /**
    * Only include nodes of these types in the result.
    * If not specified, all node types are included.
+   *
+   * @remarks
+   * This gates only which nodes appear in the returned array -- it does not
+   * prune the traversal. Filtered-out nodes are still traversed *through*:
+   * their edges are expanded and they are marked visited, exactly like any
+   * other node. For example, with `nodeTypes: ['Person']`, a path
+   * `A(Person) -> X(Company) -> B(Person)` yields `['A', 'B']`: `X` is
+   * visited and its edges are expanded, but it is omitted from the result.
+   *
+   * Pass-through is the deliberate choice here: a caller who wants prune
+   * semantics cannot reconstruct pass-through, whereas a caller who wants only
+   * the listed types can already filter the returned array.
    */
   nodeTypes?: string[];
 }
@@ -124,16 +136,18 @@ export function traverse(
     if (visited.has(nodeId)) {
       continue;
     }
-
-    // Check node type filter
-    const node = storage.getNode(nodeId);
-    if (nodeTypes && node && !nodeTypes.includes(node.type)) {
-      // Skip this node but don't add to visited (allow reaching through it)
-      continue;
-    }
-
     visited.add(nodeId);
-    result.push(nodeId);
+
+    // Check node type filter. This gates only whether the node appears in
+    // `result` -- it does not prune the traversal. Filtered-out nodes are
+    // still marked visited (above) and their edges are still expanded
+    // (below), so a path through a filtered node still reaches whatever
+    // lies beyond it (IF-3-RR0 pass-through semantics).
+    const node = storage.getNode(nodeId);
+    const passesTypeFilter = !nodeTypes || !node || nodeTypes.includes(node.type);
+    if (passesTypeFilter) {
+      result.push(nodeId);
+    }
 
     // Check depth limit (0 means unlimited)
     if (maxDepth > 0 && depth >= maxDepth) {

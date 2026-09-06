@@ -11,7 +11,7 @@
  * - Subgraph operations: subgraph()
  */
 
-import { describe, it, expect, beforeEach } from 'vitest';
+import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { MemoryStorage } from '../../src/storage/index.js';
 import type { Storage } from '../../src/storage/index.js';
 import type { Node, Edge } from '../../src/types/index.js';
@@ -228,6 +228,54 @@ describe('Graph Operations', () => {
       expect(visited).toContain('C');
       expect(visited).not.toContain('D');
       expect(visited).not.toContain('E');
+    });
+
+    it('should pass through a filtered node to reach nodes beyond it', () => {
+      // A(Person) -> X(Company) -> B(Person), nodeTypes: ['Person']
+      // X is not a leaf here (unlike D/E in the base graph), so this distinguishes
+      // pass-through (X visited + expanded, B reached) from prune (X dropped, B unreachable).
+      storage.addNode({ id: 'PT_A', type: 'Person', properties: {} });
+      storage.addNode({ id: 'PT_X', type: 'Company', properties: {} });
+      storage.addNode({ id: 'PT_B', type: 'Person', properties: {} });
+      storage.addEdge({ id: 'pt_e1', type: 'WORKS_AT', source: 'PT_A', target: 'PT_X', properties: {} });
+      storage.addEdge({ id: 'pt_e2', type: 'WORKS_AT', source: 'PT_X', target: 'PT_B', properties: {} });
+
+      const visited = traverse(storage, 'PT_A', { nodeTypes: ['Person'] });
+
+      expect(visited).toContain('PT_A');
+      expect(visited).toContain('PT_B');
+      expect(visited).not.toContain('PT_X');
+    });
+
+    it('should process a filtered node reachable via two paths exactly once (re-enqueue regression)', () => {
+      // PT2_S -> PT2_M1 -> PT2_F
+      // PT2_S -> PT2_M2 -> PT2_F
+      // PT2_F -> PT2_G
+      // PT2_F (Company) is reachable via two paths; it must be looked up (processed) only
+      // once, not once per incoming path, and traversal must still reach PT2_G through it.
+      storage.addNode({ id: 'PT2_S', type: 'Person', properties: {} });
+      storage.addNode({ id: 'PT2_M1', type: 'Person', properties: {} });
+      storage.addNode({ id: 'PT2_M2', type: 'Person', properties: {} });
+      storage.addNode({ id: 'PT2_F', type: 'Company', properties: {} });
+      storage.addNode({ id: 'PT2_G', type: 'Person', properties: {} });
+      storage.addEdge({ id: 'pt2_e1', type: 'REL', source: 'PT2_S', target: 'PT2_M1', properties: {} });
+      storage.addEdge({ id: 'pt2_e2', type: 'REL', source: 'PT2_S', target: 'PT2_M2', properties: {} });
+      storage.addEdge({ id: 'pt2_e3', type: 'REL', source: 'PT2_M1', target: 'PT2_F', properties: {} });
+      storage.addEdge({ id: 'pt2_e4', type: 'REL', source: 'PT2_M2', target: 'PT2_F', properties: {} });
+      storage.addEdge({ id: 'pt2_e5', type: 'REL', source: 'PT2_F', target: 'PT2_G', properties: {} });
+
+      const getNodeSpy = vi.spyOn(storage, 'getNode');
+
+      const visited = traverse(storage, 'PT2_S', { nodeTypes: ['Person'] });
+
+      expect(visited).toContain('PT2_S');
+      expect(visited).toContain('PT2_M1');
+      expect(visited).toContain('PT2_M2');
+      expect(visited).toContain('PT2_G');
+      expect(visited).not.toContain('PT2_F');
+
+      const filteredNodeLookups = getNodeSpy.mock.calls.filter(([id]) => id === 'PT2_F').length;
+      expect(filteredNodeLookups).toBe(1);
     });
 
     it('should return only start node for isolated traversal', () => {

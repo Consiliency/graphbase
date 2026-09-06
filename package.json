@@ -3,17 +3,41 @@
   "version": "0.1.0",
   "description": "TypeScript graph database abstraction layer with type-safe node/edge management and schema validation",
   "type": "module",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      }
+    },
+    "./package.json": "./package.json"
+  },
   "main": "dist/index.js",
+  "module": "./dist/index.js",
   "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "sideEffects": false,
   "scripts": {
     "build": "tsup src/index.ts --format esm,cjs --dts && npm run check:dts",
     "check:dts": "node -e \"require('node:fs').accessSync('dist/index.d.ts'); console.log('dist/index.d.ts present')\"",
+    "prepack": "npm run build",
     "test": "vitest run",
     "test:watch": "vitest watch",
     "test:coverage": "vitest run --coverage",
     "typecheck": "tsc --noEmit"
   },
-  "keywords": ["graph", "database", "typescript", "schema"],
+  "keywords": [
+    "graph",
+    "database",
+    "typescript",
+    "schema"
+  ],
   "author": "",
   "license": "MIT",
   "devDependencies": {
