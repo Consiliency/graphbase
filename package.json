@@ -26,6 +26,7 @@
   "scripts": {
     "build": "tsup src/index.ts --format esm,cjs --dts && npm run check:dts",
     "check:dts": "node -e \"require('node:fs').accessSync('dist/index.d.ts'); console.log('dist/index.d.ts present')\"",
+    "prepack": "npm run build",
     "test": "vitest run",
     "test:watch": "vitest watch",
     "test:coverage": "vitest run --coverage",
