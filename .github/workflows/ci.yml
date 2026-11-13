@@ -8,6 +8,10 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      npm_config_jobs: 2
+      GOMAXPROCS: 2
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -15,10 +19,17 @@ jobs:
           node-version: '20'
           cache: npm
       - run: npm ci
+      - name: Verify bounded Vitest options
+        run: |
+          ./node_modules/.bin/vitest --help > "$RUNNER_TEMP/vitest-help.txt"
+          cat "$RUNNER_TEMP/vitest-help.txt"
+          grep -q -- '--maxWorkers' "$RUNNER_TEMP/vitest-help.txt"
+          grep -q -- '--minWorkers' "$RUNNER_TEMP/vitest-help.txt"
+          grep -Eq -- '--(fileParallelism|file-parallelism)' "$RUNNER_TEMP/vitest-help.txt"
       - name: Typecheck
         run: npm run typecheck
       - name: Test
-        run: npm test
+        run: npm test -- --maxWorkers=2 --minWorkers=1 --no-file-parallelism
       - name: Build (emits dist/index.d.ts)
         run: npm run build
       # `npm run build` runs `check:dts`, which fails the job if the declaration
@@ -26,3 +37,13 @@ jobs:
       # this explicit assertion is what actually gates the type contract).
       - name: Assert declaration file shipped
         run: test -f dist/index.d.ts
+
+  canonicalize-regression:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - run: npm run test:canonicalize

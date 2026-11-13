@@ -46,7 +46,12 @@ export function canonicalize<T>(value: T): T {
       if (v === undefined) {
         continue;
       }
-      result[key] = canonicalize(v);
+      Object.defineProperty(result, key, {
+        value: canonicalize(v),
+        enumerable: true,
+        writable: true,
+        configurable: true,
+      });
     }
     return result as unknown as T;
   }
